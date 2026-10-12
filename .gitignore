@@ -1,0 +1,14 @@
+# The pdf is built by GitHub Actions, not committed.
+*.pdf
+
+# LaTeX and biber build products
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.run.xml
+*.synctex.gz
