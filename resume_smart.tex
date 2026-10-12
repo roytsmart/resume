@@ -1,274 +1,197 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Medium Length Professional CV
-% LaTeX Template
-% Version 2.0 (8/5/13)
-%
-% This template has been downloaded from:
-% http://www.LaTeXTemplates.com
-%
-% Original author:
-% Trey Hunner (http://www.treyhunner.com/)
-%
-% Important note:
-% This template requires the resume.cls file to be in the same directory as the
-% .tex file. The resume.cls file provides the resume style used for structuring the
-% document.
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% The resume of Roy T. Smart, built on the "Medium Length Professional CV"
+% template by Trey Hunner (http://www.treyhunner.com/), from
+% http://www.LaTeXTemplates.com. The layout lives in resume.cls.
 
-%----------------------------------------------------------------------------------------
-%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
-%----------------------------------------------------------------------------------------
+\documentclass{resume}
 
-\documentclass{resume} % Use the custom resume.cls style 
-
-\usepackage{fontawesome}
-%\usepackage{fbb}
-\usepackage[left=0.4 in,top=0.4in,right=0.4 in,bottom=0.4in]{geometry} % Document margins
+\usepackage[left=0.5in,top=0.4in,right=0.5in,bottom=0.4in]{geometry}
+\usepackage{fontawesome5}
 \usepackage{enumitem}
-\usepackage{hyperref}
-%\usepackage{natbib}
-%\usepackage{bibentry}
-\usepackage[style=apa, backend=biber, maxnames=99]{biblatex}
-\usepackage{color}
-
-%\renewcommand{\bibsection}{}
-
-\renewcommand*{\mkbibnamegiven}[1]{
-	\ifitemannotation{highlight}
-	{\textbf{#1}}
-	{#1}
-}
-
-
-
-\renewcommand*{\mkbibnamefamily}[1]{%
-	\ifitemannotation{highlight}
-	{\textbf{#1}}
-	{#1}
-}
-
-\newcommand{\tab}[1]{\hspace{.2667\textwidth}\rlap{#1}} 
-\newcommand{\itab}[1]{\hspace{0em}\rlap{#1}}
-
-\newcommand{\ceb}[1]{{\color{red} #1}} % Cappy comment
+\usepackage{multicol}
+\usepackage{tabularx}
+\usepackage{xcolor}
+% biblatex-apa lists up to 20 authors, so long author lists are truncated with
+% `and others` in sources.bib.
+\usepackage[style=apa, backend=biber]{biblatex}
+\usepackage[colorlinks, urlcolor=blue!50!black, linkcolor=black]{hyperref}
 
 \addbibresource{sources.bib}
-%\usepackage{etoolbox}
-%\patchcmd{\thebibliography}{\section*{\refname}}{}{}{}
 
-\name{Roy T. Smart} % Your name
+% Link the draft of an unpublished article by name rather than by its full url.
+\DeclareFieldFormat[unpublished]{url}{\href{#1}{Draft}}
 
-\address{Barnard Hall, Room 264, Bozeman, MT 59717}
-\address{801-906-1539 \\ roy.smart@montana.edu \\ \faicon{github} \href{github.com/byrdie}{byrdie}}  % Your phone number and email
-\address{Department of Physics, Montana State University}
+% Bold my name in author lists, using the `highlight` annotation in sources.bib.
+\renewcommand*{\mkbibnamegiven}[1]{\ifitemannotation{highlight}{\textbf{#1}}{#1}}
+\renewcommand*{\mkbibnamefamily}[1]{\ifitemannotation{highlight}{\textbf{#1}}{#1}}
 
+% Sub-bullets beneath a bullet of an `rSubsection`.
+\newlist{details}{itemize}{1}
+\setlist[details]{topsep=0pt, noitemsep, leftmargin=*, label={--}}
 
+% A list of citations or talks, set ragged right so that author lists are not
+% stretched to fill the line.
+\newenvironment{entries}{%
+	\small\raggedright
+	\begin{itemize}[leftmargin=*, topsep=2pt, itemsep=1pt, parsep=0pt]%
+}{%
+	\end{itemize}%
+}
+
+% A table with bold labels on the left, which fills the width of the line.
+\newenvironment{labeled}{%
+	\small
+	\tabularx{\linewidth}{@{} >{\bfseries}l @{\hspace{3ex}} X @{}}%
+}{%
+	\endtabularx
+}
+
+\setlength{\multicolsep}{0pt}
+
+% An entry with a title on the left and dates on the right.
+\newcommand{\dated}[2]{\textbf{#1} \hfill {\fontseries{b}\selectfont #2}}
+
+\name{Roy T. Smart}
+
+\address{Department of Physics, Montana State University, Bozeman, MT}
+\address{%
+	\faEnvelope[regular]~\href{mailto:roytsmart@gmail.com}{roytsmart@gmail.com} \\
+	\faGlobe~\href{https://roytsmart.github.io}{roytsmart.github.io} \\
+	\faGithub~\href{https://github.com/roytsmart}{roytsmart} \\
+	\faOrcid~\href{https://orcid.org/0000-0002-9997-5515}{0000-0002-9997-5515}%
+}
 
 \begin{document}
-	
-%	\nobibliography*{aassources}
-	
 
-
-%----------------------------------------------------------------------------------------
-%	OBJECTIVE
-%----------------------------------------------------------------------------------------
-
-%\begin{rSection}{OBJECTIVE}
-%
-%{``Winners are not people who never fail, but people who never quit". What I've learnt in an assignment is more important to me than what I already knew when I started. By virtue of my tenacity and hard work, I want to build a successful career in mechanical engineering and nanotechnology.}
-%
-%
-%\end{rSection}
-%----------------------------------------------------------------------------------------
-%	EDUCATION SECTION
-%----------------------------------------------------------------------------------------
-
-\begin{rSection}{Interests}
-	\begin{minipage}{0.5\textwidth}
-		\begin{itemize}[leftmargin=*]
-			\item EUV instrumentation (imaging and spectroscopy)
-			\item Solar transition region explosive events
-			\item Optics modeling and tolerancing
+\begin{rSection}{Research Interests}
+	\begin{multicols}{2}
+		\begin{itemize}[leftmargin=*, noitemsep, topsep=0pt]
+			\item Solar transition region explosive events and jets
+			\item Snapshot imaging spectroscopy
+			\item EUV instrument design and optical modeling
+			\item Ultraviolet response of silicon sensors
+			\item Inverse problems and machine learning
+			\item Open-source scientific software
 		\end{itemize}
-	\end{minipage}
-	\begin{minipage}{0.5\textwidth}
-		\begin{itemize}[leftmargin=*]
-			\item Machine learning
-			\item Software engineering
-			\item High-performance numerical simulation
-		\end{itemize}
-	\end{minipage}
-\end{rSection} 
+	\end{multicols}
+\end{rSection}
 
 \begin{rSection}{Education}
 
-{\bf Ph.D. Candidate in Physics} \hfill {\fontseries{b}\selectfont Aug 2015 - Present}
-\\
-Department of Physics, Montana State University
+	\dated{Ph.D. in Physics, Montana State University}{Aug 2015 -- Present}
+	\\
+	In progress. Advisor: Charles Kankelborg
 
-{\bf B.S. in Physics, Minor in Computer Science} \hfill {\fontseries{b}\selectfont Aug 2011 - May 2015 }
-\\
-Department of Physics, Montana State University
+	\dated{B.S. in Physics, Minor in Computer Science, Montana State University}{Aug 2011 -- May 2015}
 
 \end{rSection}
 
-%----------------------------------------------------------------------------------------
-%	WORK EXPERIENCE SECTION
-%----------------------------------------------------------------------------------------
+\begin{rSection}{Research Experience}
 
-\begin{rSection}{WORK EXPERIENCE}
-\begin{rSubsection}{Department of Physics, Montana State University}{Jan 2016 - Present}{Graduate Research Assistant for Professor Charles Kankelborg}{Bozeman, MT}
-	\small
-	\item \textbf{ESIS instrumentation.} The EUV Snapshot Imaging Spectrograph (ESIS) is a NASA sounding rocket mission designed to measure solar transition region spectral line profiles with high spatial, spectral and temporal resolution over a wide field of view.
-	\begin{itemize}[topsep=-5pt, noitemsep, leftmargin=*, label={--}]
-		\item \textbf{Data analysis.} Implemented a convolutional neural network to recover spectral line profiles from ESIS observations.
-		\item \textbf{Optical modeling.} Developed a custom raytrace model in Python to calculate the distortion, vignetting, point-spread function, etc. of the ESIS optical system.
-		\item \textbf{Optics testing.} Measured the wavefront error and roughness of the ESIS primary mirror and gratings using phase-shifting interferometry. 
-		\item \textbf{Alignment and focus.} Developed procedures to align and focus the ESIS optics using a Zemax model of the instrument.
-		\item \textbf{Baffle design}. Developed an automated procedure to generate apertures for the ESIS baffles using a Zemax model of the instrument.
-		\item \textbf{Launch campaign.} Operated the ESIS instrument during integration, testing, and flight operations at White Sands Missile Range, NM.
-	\end{itemize}
-	\item \textbf{FURST optical modeling.} Used Zemax to validate and characterize the optical design for the Full-Sun Ultraviolet Rocket Spectrometer (FURST), a NASA sounding rocket mission designed to measure the vacuum ultraviolet spectrum of the Sun as a star with high resolution.
-	\item \textbf{IRIS Planning.} Organized observation schedule for the Interface Region Imaging Spectrograph (IRIS), a NASA Small Explorer mission that observes the solar ultraviolet spectrum with high spatial, spectral, and temporal resolution.
-\end{rSubsection}
+	\begin{rSubsection}{Department of Physics, Montana State University}{Jan 2016 -- Present}{Graduate Research Assistant, advised by Charles Kankelborg}{Bozeman, MT}
+		\small
+		\item \textbf{EUV Snapshot Imaging Spectrograph (ESIS).}
+		A NASA sounding rocket computed tomography imaging spectrograph, which measures Doppler shifts across an 11.5 arcminute field of the transition region in a single exposure.
+		\begin{details}
+			\item \textbf{Instrument paper.} Leading the instrument paper, a reproducible article generated from the instrument model.
+			\item \textbf{Optical model.} Developed the optical model of ESIS in Python, which predicts its distortion, vignetting, point-spread function, and effective area from measurements of its coatings, filters, and gratings.
+			\item \textbf{Flight preparation.} Developed the analysis used to align and focus the optics, generated the baffle apertures from the optical model, and measured the wavefront error and roughness of the primary mirror and gratings with phase-shifting interferometry.
+			\item \textbf{Calibration.} Built the pipeline that calibrates the flight images, including the characterization of the gain, dark current, and linearity of the CCD cameras built by NASA Marshall Space Flight Center.
+			\item \textbf{Science.} Inverted the flight images into spectral cubes using convolutional neural networks and the multiplicative algebraic reconstruction technique. Leading a study of a transition region jet which combines ESIS Doppler shifts with the magnetic topology from SDO/HMI and differential emission measures from SDO/AIA and Hinode/XRT.
+			\item \textbf{ESIS-II.} Helped design the optics of the second flight (2027), which adds channels and new spectral lines.
+		\end{details}
+		\item \textbf{Silicon sensors in the ultraviolet.}
+		Proposed partial charge collection as the reason that Hubble/WFC3 and IRIS measure less noise in the ultraviolet than photon shot noise predicts, with a model that agrees with both.
+		Measured the depth-dependent charge-diffusion kernel of all four IRIS CCDs in orbit, using energetic particles that cross the sensors at glancing angles.
+		\item \textbf{Full-sun Ultraviolet Rocket Spectrometer (FURST).}
+		Contributed to the optical design and tolerance analysis of this NASA sounding rocket spectrograph of the Sun as a star.
+		Modeled the instrument as built, from measurements of its flight grating, coatings, and filter, to predict its effective area and spectral resolution for the instrument paper.
+		\item \textbf{Multi-Order Solar EUV Spectrograph (MOSES).}
+		Measured Doppler shifts in MOSES-II images by tracking features between spectral orders, and trained neural networks on IRIS observations to invert MOSES images.
+		\item \textbf{IRIS planning.} Organized the observing schedule of the Interface Region Imaging Spectrograph.
+	\end{rSubsection}
 
-
-\begin{rSubsection}{Department of Physics, Montana State University}{Aug 2015 - Dec 2015}{Graduate Teaching Assistant for Professor Nicholas Childs}{Bozeman, MT}
-	\small
-	\item \textbf{Undergradute Physics I.} Assisted with conducting the labs, test proctoring, and grading.
-\end{rSubsection}
-
-\begin{rSubsection}{Department of Physics, Montana State University}{Sep 2012 - Aug 2015}{Undergraduate Research Assistant for Professor Charles Kankelborg}{Bozeman, MT}
-	\small
-	\item \textbf{MOSES instrumentation.} The Mulit-Order Solar EUV Spectrograph (MOSES) is the predecessor to ESIS and is also a NASA sounding rocket mission designed to measure solar transition region spectral line profiles with high spatial, spectral and temporal resolution over a wide field of view.
-	\begin{itemize}[topsep=-5pt, noitemsep, leftmargin=*, label={--}]
-		\item \textbf{Flight software.} Developed and tested software to control the cameras on MOSES and downlink the images.
-		\item \textbf{Data analysis.} Developed a convolutional neural network to process observations from the MOSES instrument.
-		\item \textbf{Launch campaign.} Operated the MOSES instrument during integration, testing, and flight operations at White Sands Missile Range, NM.
-	\end{itemize}
-\end{rSubsection}
-
-%\begin{rSubsection}{Colorado River \& Trail Expeditions}{June 2011 - Aug 2013}{Whitewater River Guide}{Salt Lake City, UT}
-%	\small
-%	\item \textbf{Grand Canyon River Guide.} Piloted 18' rafts through the Grand Canyon on trips lasting up to 12 days.
-%	Navigated Class V rapids, entertained guests, and prepared meals while working as a team.
-%	\item \textbf{Trip planning.} Prepared menu, purchased supplies, organized logistics, and maintained equipment for upcoming trips.
-%\end{rSubsection}
-
-\newpage
-	
-\end{rSection} 
-
-%----------------------------------------------------------------------------------------
-%	TECHNICAL STRENGTHS SECTION
-%----------------------------------------------------------------------------------------
-
-\begin{rSection}{TECHNOLOGY SKILLS}
-
-\begin{tabular}{ @{} >{\bfseries}l @{\hspace{6ex}} l }
-Design Software & Zemax \\ 
-%Engineering Software & Abaqus, MATLAB, Ansys Mechanical APDL, COMSOL Multiphysics.  \\  
-Programming Languages &  Python, C/C++, IDL, \LaTeX, CUDA C/C++, Java, Mathematica \\
-Frameworks and libraries & Numpy, Scipy, Astropy, Sunpy, Numba, Pandas, Keras, Sphinx \\
-Office Accessories & Word, Powerpoint, Excel, Project, Visio
-\end{tabular}
-
-\end{rSection}
-\label{key}
-
-
-
-
-%	EXAMPLE SECTION
-%----------------------------------------------------------------------------------------
-
-\begin{rSection}{Awards}
-\textbf{NASA Earth and Space Science Fellowship (NESSF)} \hfill {\fontseries{b}\selectfont Sep 2017 - Sep 2020} \\
-{``Neural Networks for Computed Tomography Imaging Spectroscopy''}
+	\begin{rSubsection}{Department of Physics, Montana State University}{Sep 2012 -- Aug 2015}{Undergraduate Research Assistant, advised by Charles Kankelborg}{Bozeman, MT}
+		\small
+		\item \textbf{MOSES-II.} Wrote the flight software that commanded MOSES-II and handled its data, and analyzed the thermal behavior of an optical mount.
+	\end{rSubsection}
 
 \end{rSection}
 
-\begin{rSection}{PUBLICATIONS}
-	\small
-	\begin{itemize}[leftmargin=*]
+\begin{rSection}{Sounding Rocket Campaigns}
+	\textbf{ESIS}, White Sands Missile Range, NM: integration, testing, and flight operations \hfill {\fontseries{b}\selectfont Sep 30, 2019}
+	\\
+	\textbf{MOSES-II}, White Sands Missile Range, NM: flight software and range operations \hfill {\fontseries{b}\selectfont Aug 27, 2015}
+\end{rSection}
+
+\begin{rSection}{Fellowships}
+	\dated{NASA Earth and Space Science Fellowship (NESSF)}{Sep 2017 -- Sep 2020}
+	\\
+	\textit{Neural Networks for Computed Tomography Imaging Spectroscopy of the Solar Atmosphere}
+\end{rSection}
+
+\begin{rSection}{Publications}
+	\textbf{Published}
+	\begin{entries}
 		\item \fullcite{Parker2022}
-		\item \fullcite{Smart2022}
-	\end{itemize}
-	
+		\item \fullcite{Johnson2018}
+	\end{entries}
+
+	\textbf{In preparation}
+	\begin{entries}
+		\item \fullcite{SmartESIS}
+		\item \fullcite{SmartJet}
+		\item \fullcite{SmartNoise}
+		\item \fullcite{SmartDiffusion}
+		\item \fullcite{ParkerESIS2}
+	\end{entries}
 \end{rSection}
 
-\begin{rSection}{PRESENTATIONS}
-\small
-\begin{itemize}[leftmargin=*]
-	\item \fullcite{2020AGUFMSH0480003S}
-	\item \fullcite{2020AGUFMSH0480004P}
-	\item \fullcite{2019AGUFMSH31C3321S}
-	\item \fullcite{2019AGUFMSH33A..05K}
-	\item \fullcite{2018AGUFMSH23A..05S}
-	\item \fullcite{2018SPIE10747E..0AJ}
-	\item \fullcite{2017SPD....4810610S}
-	\item \fullcite{2017SPD....4811001K}
-	\item \fullcite{2016SPD....4730901S}
-\end{itemize}
-
-%\printbibliography
-
-%\nocite{*}\left( 
-%\bibliographystyle{aasjournal}
-%\bibliography{aassources}
-
-\end{rSection}
-
-%----------------------------------------------------------------------------------------
-
-%		REFERENCE SECTION
-%----------------------------------------------------------------------------------------
-
-\begin{rSection}{REFERENCES}
-\begin{minipage}[h]{0.5\textwidth}
-Dr. Charles Kankelborg\\
-Professor\\
-Department of Physics, Montana State University\\Bozeman, MT\\
-Tel: 406-994-7853\\
-Email: kankel@montana.edu\\
-Relation: Supervisor \& course teacher 
-\end{minipage}
-\hfill
-\begin{minipage}[h]{0.5\textwidth}
-Dr. Jacob Parker\\
-Research Astrophysicist\\
-NASA Goddard Space Flight Center\\ Greenbelt, MD\\
-Tel: 208-520-2807 (cell)\\
-Email: jacob.d.parker@nasa.gov\\
-Relation: Colleague
-\end{minipage}
-\hfill
-\end{rSection}
-
-\begin{rSection}{PERSONAL INTERESTS}
+\begin{rSection}{Selected Talks}
+	\begin{entries}
+		\item The Physical Structure and Evolution of Transition Region Explosive Events Observed with ESIS. \textit{AAS SPD}, 2026.
+		\item The Noise Measured by Back-Illuminated Silicon Sensors Modeled Using Partial Charge Collection. \textit{OpTeC} and \textit{SPD}, 2025.
+		\item Inverting ESIS Observations of the Solar Transition Region using Convolutional Neural Networks. \textit{IRIS-Hinode}, 2024.
+		\item Diagnosing Coronal Heating using Computed Tomography Imaging Spectroscopy. \textit{ISSI team meeting}, 2023.
+		\item A Convolutional Neural Network for Inverting Observations from ESIS. \textit{Colloquium, LMSAL}, 2022.
+		\item Analyzing ESIS Observations Using Convolutional Neural Networks. \textit{Colloquium, NASA MSFC}, 2020.
+		\item Machine Learning Techniques for Computed Tomography Imaging Spectroscopy of the Solar Atmosphere. \textit{AGU}, 2018.
+	\end{entries}
 	\small
-	\begin{minipage}{0.17\textwidth}
-		\begin{itemize}[leftmargin=*]
-			\item Alpine skiing
-		\end{itemize}
-	\end{minipage}
-	\begin{minipage}{0.23\textwidth}
-		\begin{itemize}[leftmargin=*]
-			\item Whitewater rafting	
-		\end{itemize}
-	\end{minipage}
-	\begin{minipage}{0.35\textwidth}
-		\begin{itemize}[leftmargin=*]
-			\item Open-source software development
-		\end{itemize}
-	\end{minipage}
-	\begin{minipage}{0.2\textwidth}
-		\begin{itemize}[leftmargin=*]
-			\item Amateur astronomy
-		\end{itemize}
-	\end{minipage}
+	Also posters at AGU (2019, 2020) and the AAS SPD (2016, 2017). All talks, with slides, are at \href{https://roytsmart.github.io/talks.html}{roytsmart.github.io/talks}.
+\end{rSection}
+
+\begin{rSection}{Software}
+	\small
+	Author and maintainer of open-source Python packages for modeling instruments and analyzing solar data, each released on PyPI with a Zenodo DOI, tested in continuous integration, and documented online. Most are at \href{https://github.com/sun-data}{github.com/sun-data}.
+
+	\begin{labeled}
+		named-arrays & Arrays with named axes and automatic propagation of uncertainties, the base of the stack \\
+		optika & Raytracing and modeling of optical systems, similar to Zemax \\
+		ctis & Inversion of images captured by computed tomography imaging spectrographs \\
+		esis, furst, msfc-ccd & Models of the ESIS and FURST instruments and the MSFC CCD cameras \\
+		iris, sdo, hinode, utu & Analysis of IRIS, SDO, and Hinode data, and spectral lines from CHIANTI \\
+		aastex & Journal articles written as Python programs, so every number in the text is computed \\
+	\end{labeled}
+\end{rSection}
+
+\begin{rSection}{Skills}
+	\begin{labeled}
+		Optics & Zemax OpticStudio, phase-shifting interferometry, alignment and focus, EUV coatings and filters \\
+		Detectors & CCD characterization: gain, photon transfer, dark current, linearity, charge diffusion \\
+		Solar data & SDO/AIA and HMI, IRIS, Hinode/XRT, CHIANTI, differential emission measures \\
+		Languages & Python, C/C++, CUDA, IDL, Rust, \LaTeX \\
+		Python & NumPy, SciPy, Astropy, SunPy, Numba, PyTorch, Matplotlib, pytest, Sphinx, GitHub Actions \\
+	\end{labeled}
+\end{rSection}
+
+\begin{rSection}{Teaching and Mentoring}
+	\textbf{Mentor}, ESIS undergraduate optics team
+	\\
+	\textbf{Graduate Teaching Assistant}, Physics I laboratory \hfill {\fontseries{b}\selectfont Aug 2015 -- Dec 2015}
+\end{rSection}
+
+\begin{rSection}{Personal Interests}
+	Alpine skiing, whitewater rafting, and amateur astronomy. \hfill \textit{References are available on request.}
 \end{rSection}
 
 \end{document}
