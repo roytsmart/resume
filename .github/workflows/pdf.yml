@@ -1,0 +1,124 @@
+name: pdf
+
+# The resume is built here rather than committed. Pushes to `master` publish it
+# to the root of the `gh-pages` branch, and each pull request publishes a
+# preview to `pr/<number>/` and links it in a comment.
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+env:
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile the resume
+        uses: xu-cheng/latex-action@v4
+        with:
+          root_file: resume_smart.tex
+      - name: Upload the resume
+        uses: actions/upload-artifact@v4
+        with:
+          name: resume
+          path: resume_smart.pdf
+          if-no-files-found: error
+
+  publish:
+    needs: build
+    # A pull request from a fork is given a read-only token, so it cannot
+    # publish a preview.
+    if: >-
+      github.event_name != 'pull_request' ||
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    # Every run pushes to the same branch, so serialize them.
+    concurrency:
+      group: gh-pages
+      cancel-in-progress: false
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Download the resume
+        uses: actions/download-artifact@v4
+        with:
+          name: resume
+          path: resume
+
+      - name: Determine where to publish
+        id: target
+        env:
+          EVENT: ${{ github.event_name }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          if [ "$EVENT" = "pull_request" ]; then
+            echo "dir=pr/$PR" >> "$GITHUB_OUTPUT"
+            echo "pr=$PR" >> "$GITHUB_OUTPUT"
+          elif [ "$GITHUB_REF" = "refs/heads/master" ]; then
+            echo "dir=." >> "$GITHUB_OUTPUT"
+            echo "pr=" >> "$GITHUB_OUTPUT"
+          else
+            echo "Only master is published; nothing to do for $GITHUB_REF."
+            echo "dir=" >> "$GITHUB_OUTPUT"
+            echo "pr=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Publish to the gh-pages branch
+        if: steps.target.outputs.dir != ''
+        env:
+          DIR: ${{ steps.target.outputs.dir }}
+          SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          remote="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          if git clone --depth 1 --branch gh-pages "$remote" pages 2>/dev/null; then
+            echo "cloned existing gh-pages"
+          else
+            echo "gh-pages does not exist yet; creating it"
+            mkdir pages
+            cd pages
+            git init -q
+            git checkout -q -b gh-pages
+            git remote add origin "$remote"
+            cd ..
+          fi
+
+          mkdir -p "pages/${DIR}"
+          cp resume/resume_smart.pdf "pages/${DIR}/resume_smart.pdf"
+
+          cd pages
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add --all
+          if git diff --cached --quiet; then
+            echo "The resume is unchanged; nothing to publish."
+          else
+            git commit -q -m "Publish resume_smart.pdf for ${SHA:0:7} to ${DIR}"
+            git push -q origin gh-pages
+          fi
+
+      - name: Comment the preview link on the pull request
+        if: steps.target.outputs.pr != ''
+        env:
+          PR: ${{ steps.target.outputs.pr }}
+          SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          repo_name="${GITHUB_REPOSITORY#*/}"
+          base="https://${GITHUB_REPOSITORY_OWNER}.github.io/${repo_name}/pr/${PR}"
+          body="<!-- pdf-preview -->
+          **Resume preview:** [resume_smart.pdf](${base}/resume_smart.pdf)
+
+          Built from \`${SHA:0:7}\`. This link is updated on every push to this pull request."
+
+          # Update the existing comment in place so pushes do not pile up comments.
+          id=$(gh api "repos/${GITHUB_REPOSITORY}/issues/${PR}/comments" --paginate \
+                 --jq '[.[] | select(.body | startswith("<!-- pdf-preview -->"))][0].id // empty')
+          if [ -n "$id" ]; then
+            gh api -X PATCH "repos/${GITHUB_REPOSITORY}/issues/comments/${id}" -f body="$body" >/dev/null
+          else
+            gh api -X POST "repos/${GITHUB_REPOSITORY}/issues/${PR}/comments" -f body="$body" >/dev/null
+          fi
