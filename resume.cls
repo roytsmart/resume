@@ -118,8 +118,10 @@
 	{#3} \hfill {#4}%
   }\smallskip
 %  \begin{list}{$\cdot$}{\leftmargin=0em} % \cdot used for bullets, no indentation
-  \begin{list}{\textbullet}{\leftmargin=1.1em}
-   \itemsep -0.5em \vspace{-0.5em} % Compress items in list together for aesthetics
+% No paragraph skip between items (parskip would add 6.8pt), which LaTeX would
+% also add above any list nested in an item
+  \begin{list}{\textbullet}{\leftmargin=1.1em \parsep=0pt \itemsep=1pt}
+   \vspace{-0.5em}
   }{
   \end{list}
 %  \vspace{0.5em} % Some space after the list of bullet points
