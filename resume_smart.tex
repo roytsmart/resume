@@ -29,10 +29,10 @@
 \setlist[details]{topsep=0pt, noitemsep, leftmargin=*, label={--}}
 
 % A list of citations or talks, set ragged right so that author lists are not
-% stretched to fill the line. The optional argument takes more enumitem keys.
-\newenvironment{entries}[1][]{%
+% stretched to fill the line.
+\newenvironment{entries}{%
 	\small\raggedright
-	\begin{itemize}[leftmargin=*, topsep=0pt, partopsep=0pt, itemsep=1pt, parsep=0pt, #1]%
+	\begin{itemize}[leftmargin=*, topsep=2pt, itemsep=1pt, parsep=0pt]%
 }{%
 	\end{itemize}%
 }
@@ -130,23 +130,19 @@
 \end{rSection}
 
 \begin{rSection}{Publications}
-	% Cancel the paragraph skip above and below these lists, which would
-	% otherwise separate each list from its heading.
 	\textbf{Published and in press}
-	\begin{entries}[topsep=-\parskip]
+	\begin{entries}
 		\item \fullcite{LongcopeRidge}
 		\item \fullcite{Parker2022}
 		\item \fullcite{Johnson2018}
 	\end{entries}
 
-	\smallskip
 	\textbf{In preparation}
-	\begin{entries}[topsep=-\parskip]
+	\begin{entries}
 		\item \fullcite{SmartESIS}
 		\item \fullcite{SmartJet}
 		\item \fullcite{SmartNoise}
 		\item \fullcite{SmartDiffusion}
-		\item \fullcite{ParkerESIS2}
 	\end{entries}
 \end{rSection}
 
@@ -166,7 +162,7 @@
 
 \begin{rSection}{Software}
 	\small
-	Author and maintainer of tested, documented open-source Python packages on PyPI, most at \href{https://github.com/sun-data}{github.com/sun-data}.
+	Author and maintainer of open-source Python packages for modeling instruments and analyzing solar data, each released on PyPI with a Zenodo DOI, tested in continuous integration, and documented online. Most are at \href{https://github.com/sun-data}{github.com/sun-data}.
 
 	\begin{labeled}
 		named-arrays & Arrays with named axes and automatic propagation of uncertainties, the base of the stack \\
